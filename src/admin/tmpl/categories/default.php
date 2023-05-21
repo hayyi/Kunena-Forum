@@ -38,10 +38,10 @@ Factory::getDocument()->addScriptDeclaration(
     });"
 );
 
-if ($this->saveOrder)
-{
+/*if ($this->saveOrder)
+{*/
     HTMLHelper::_('kunenaforum.sortablelist', 'categoryList', 'adminForm', $this->listDirection, $this->saveOrderingUrl, false, true);
-}
+//}
 
 $filterItem = $this->escape($this->state->get('item.id'));
 
@@ -85,122 +85,47 @@ Factory::getDocument()->addScriptDeclaration(
                         <?php echo HTMLHelper::_('form.token'); ?>
 
                         <table class="table table-striped" id="categoryList">
+                           <caption class="visually-hidden">
+                               <?php echo Text::_('COM_CATEGORIES_TABLE_CAPTION'); ?>,
+                               <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+                               <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            </caption>
                             <thead>
-                            <tr>
-                                <th width="1%" class="d-none d-md-table-cell">
+                                <tr>
+                                    <th width="1%" class="d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('grid.checkall'); ?>
-                                </th>
-                                <th width="1%" class="nowrap center d-none d-md-block">
-                                    
-                                </th>
-                                <th width="5%" class="nowrap center">
-                                    <?php echo HTMLHelper::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', 'asc', '', null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
-                                </th>
-                                <th width="1%" class="nowrap">
-                                    <?php echo Text::_('COM_KUNENA_GO'); ?>
-                                </th>
-                                <th width="51%" class="nowrap">
-                                    <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'p.title', $this->listDirection, $this->listOrdering); ?>
-                                </th>
-                                <th width="20%" class="nowrap center d-none d-md-block">
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_CATEGORIES_LABEL_ACCESS', 'p.access', $this->listDirection, $this->listOrdering); ?>
-                                </th>
-                                <th width="5%" class="nowrap center">
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_LOCKED', 'p.locked', $this->listDirection, $this->listOrdering); ?>
-                                </th>
-                                <th width="5%" class="nowrap center">
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_REVIEW', 'p.review', $this->listDirection, $this->listOrdering); ?>
-                                </th>
-                                <th width="5%" class="center">
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_CATEGORIES_LABEL_POLL', 'p.allowPolls', $this->listDirection, $this->listOrdering); ?>
-                                </th>
-                                <th width="5%" class="nowrap center">
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_CATEGORY_ANONYMOUS', 'p.anonymous', $this->listDirection, $this->listOrdering); ?>
-                                </th>
-                                <th width="1%" class="nowrap center d-none d-md-block">
-                                    <?php echo HTMLHelper::_('grid.sort', 'JGRID_HEADING_ID', 'p.id', $this->listDirection, $this->listOrdering); ?>
-                                </th>
-                            </tr>
-                            <tr>
-                                <td class="d-none d-md-table-cell">
-                                </td>
-                                <td class="d-none d-md-table-cell">
-                                </td>
-                                <td class="nowrap center">
-                                    <label for="filter_published"
-                                           class="element-invisible"><?php echo Text::_('All'); ?></label>
-                                    <select name="filter_published" id="filter_published"
-                                            class="select-filter filter form-control"
-                                            onchange="Joomla.orderTable()">
-                                        <option value=""><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></option>
-                                        <?php echo HTMLHelper::_('select.options', $this->publishedOptions(), 'value', 'text', $this->filter->Published, true); ?>
-                                    </select>
-                                </td>
-                                <td>
-                                </td>
-                                <td class="nowrap">
-                                    <label for="filterTitle"
-                                           class="element-invisible"><?php echo Text::_('COM_KUNENA_FIELD_LABEL_SEARCHIN'); ?></label>
-                                    <input class="input-block-level input-filter filter form-control" type="text"
-                                           name="filterTitle"
-                                           id="filterTitle"
-                                           placeholder="<?php echo Text::_('COM_KUNENA_SYS_BUTTON_FILTERSUBMIT') ?>"
-                                           value="<?php echo $this->filter->Title; ?>"
-                                           title="<?php echo Text::_('COM_KUNENA_SYS_BUTTON_FILTERSUBMIT') ?>"/>
-                                </td>
-                                <td class="nowrap center d-none d-md-table-cell">
-                                    <label for="filterAccess"
-                                           class="element-invisible"><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></label>
-                                    <select name="filterAccess" id="filterAccess"
-                                            class="select-filter filter form-control"
-                                            onchange="Joomla.orderTable()">
-                                        <option value=""><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></option>
-                                        <?php echo HTMLHelper::_('select.options', HTMLHelper::_('access.assetgroups'), 'value', 'text', $this->filter->Access); ?>
-                                    </select>
-                                </td>
-                                <td class="nowrap center">
-                                    <label for="filterLocked"
-                                           class="element-invisible"><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></label>
-                                    <select name="filterLocked" id="filterLocked"
-                                            class="select-filter filter form-control"
-                                            onchange="Joomla.orderTable()">
-                                        <option value=""><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></option>
-                                        <?php echo HTMLHelper::_('select.options', $this->lockOptions(), 'value', 'text', $this->filter->Locked); ?>
-                                    </select>
-                                </td>
-                                <td class="nowrap center">
-                                    <label for="filterReview"
-                                           class="element-invisible"><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></label>
-                                    <select name="filterReview" id="filterReview"
-                                            class="select-filter filter form-control"
-                                            onchange="Joomla.orderTable()">
-                                        <option value=""><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></option>
-                                        <?php echo HTMLHelper::_('select.options', $this->reviewOptions(), 'value', 'text', $this->filter->Review); ?>
-                                    </select>
-                                </td>
-                                <td class="nowrap center">
-                                    <label for="filterAllowPolls"
-                                           class="element-invisible"><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></label>
-                                    <select name="filterAllowPolls" id="filterAllowPolls"
-                                            class="select-filter filter form-control"
-                                            onchange="Joomla.orderTable()">
-                                        <option value=""><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></option>
-                                        <?php echo HTMLHelper::_('select.options', $this->allowPollsOptions(), 'value', 'text', $this->filter->Allow_polls); ?>
-                                    </select>
-                                </td>
-                                <td class="nowrap center">
-                                    <label for="filterAnonymous"
-                                           class="element-invisible"><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></label>
-                                    <select name="filterAnonymous" id="filterAnonymous"
-                                            class="select-filter filter form-control"
-                                            onchange="Joomla.orderTable()">
-                                        <option value=""><?php echo Text::_('COM_KUNENA_FIELD_LABEL_ALL'); ?></option>
-                                        <?php echo HTMLHelper::_('select.options', $this->anonymousOptions(), 'value', 'text', $this->filter->Anonymous); ?>
-                                    </select>
-                                </td>
-                                <td class="nowrap center d-none d-md-table-cell">
-                                </td>
-                            </tr>
+                                    </th>
+                                    <th width="1%" class="nowrap center d-none d-md-block">
+                                        
+                                    </th>
+                                    <th width="5%" class="nowrap center">
+                                        <?php echo HTMLHelper::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', 'asc', '', null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+                                    </th>
+                                    <th width="1%" class="nowrap">
+                                        <?php echo Text::_('COM_KUNENA_GO'); ?>
+                                    </th>
+                                    <th width="51%" class="nowrap">
+                                        <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'p.title', $this->listDirection, $this->listOrdering); ?>
+                                    </th>
+                                    <th width="20%" class="nowrap center d-none d-md-block">
+                                        <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_CATEGORIES_LABEL_ACCESS', 'p.access', $this->listDirection, $this->listOrdering); ?>
+                                    </th>
+                                    <th width="5%" class="nowrap center">
+                                        <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_LOCKED', 'p.locked', $this->listDirection, $this->listOrdering); ?>
+                                    </th>
+                                    <th width="5%" class="nowrap center">
+                                        <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_REVIEW', 'p.review', $this->listDirection, $this->listOrdering); ?>
+                                    </th>
+                                    <th width="5%" class="center">
+                                        <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_CATEGORIES_LABEL_POLL', 'p.allowPolls', $this->listDirection, $this->listOrdering); ?>
+                                    </th>
+                                    <th width="5%" class="nowrap center">
+                                        <?php echo HTMLHelper::_('grid.sort', 'COM_KUNENA_CATEGORY_ANONYMOUS', 'p.anonymous', $this->listDirection, $this->listOrdering); ?>
+                                    </th>
+                                    <th width="1%" class="nowrap center d-none d-md-block">
+                                        <?php echo HTMLHelper::_('grid.sort', 'JGRID_HEADING_ID', 'p.id', $this->listDirection, $this->listOrdering); ?>
+                                    </th>
+                                </tr>
                             </thead>
                             <tfoot>
                             <tr>
