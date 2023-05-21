@@ -21,6 +21,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -28,9 +30,10 @@ use Kunena\Forum\Libraries\Access\KunenaAccess;
 use Kunena\Forum\Libraries\Factory\KunenaFactory;
 use Kunena\Forum\Libraries\Forum\Category\KunenaCategory;
 use Kunena\Forum\Libraries\Forum\Category\KunenaCategoryHelper;
-use Kunena\Forum\Libraries\Model\KunenaModel;
+use Kunena\Forum\Libraries\KunenaPrivate\Message\KunenaUser;
 use Kunena\Forum\Libraries\Tables\TableKunenaCategories;
 use Kunena\Forum\Libraries\Template\KunenaTemplate;
+use Kunena\Forum\Libraries\User\KunenaUserHelper;
 use RuntimeException;
 
 /**
@@ -38,13 +41,19 @@ use RuntimeException;
  *
  * @since 2.0
  */
-class CategoriesModel extends KunenaModel
+class CategoriesModel extends ListModel
 {
     /**
      * @var     string
      * @since   Kunena 6.0
      */
     public $context;
+    
+    /**
+     * @var     KunenaUser|null
+     * @since   Kunena 6.0
+     */
+    public $me = null;
 
     /**
      * @var     KunenaCategory[]
@@ -57,6 +66,83 @@ class CategoriesModel extends KunenaModel
      * @since   Kunena 6.0
      */
     protected $internalAdminCategory = false;
+
+    /**
+     * Constructor.
+     *
+     * @param   array                     $config   An optional associative array of configuration settings.
+     * @param   MVCFactoryInterface|null  $factory  The factory.
+     *
+     * @since   6.2
+     */
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    {
+        if (empty($config['filter_fields'])) {
+            $config['filter_fields'] = [
+                'id', 'a.id',
+                'title', 'a.title',
+                'alias', 'a.alias',
+                'published', 'a.published',
+                'access', 'a.access', 'access_level',
+                'language', 'a.language', 'language_title',
+                'checked_out', 'a.checked_out',
+                'checked_out_time', 'a.checked_out_time',
+                'created_time', 'a.created_time',
+                'created_user_id', 'a.created_user_id',
+                'lft', 'a.lft',
+                'rgt', 'a.rgt',
+                'level', 'a.level',
+                'path', 'a.path',
+                'tag',
+            ];
+        }
+
+        $this->me = KunenaUserHelper::getMyself();
+
+        parent::__construct($config, $factory);
+    }
+
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @param   string  $ordering   ordering
+     * @param   string  $direction  direction
+     *
+     * @return  void
+     *
+     * @since   Kunena 6.0
+     */
+    protected function populateState($ordering = 'a.lft', $direction = 'asc')
+    {
+        $app = Factory::getApplication();
+
+        // Load the parameters.
+        $params = ComponentHelper::getParams('com_kunena');
+        $this->setState('params', $params);
+
+        // Set list state in order to be able to re-order the categories.
+        $value = $this->getUserStateFromRequest($this->context . '.list.start', 'limitstart', 0, 'int');
+        $this->setState('list.start', $value);
+
+        $value = $this->getUserStateFromRequest($this->context . '.list.limit', 'limit', $app->get('list_limit'), 'int');
+        $this->setState('list.limit', $value);
+
+        $value = $this->getUserStateFromRequest($this->context . '.list.ordering', 'filter_order', 'ordering', 'cmd');
+        $this->setState('list.ordering', $value);
+
+        $value = $this->getUserStateFromRequest($this->context . '.list.direction', 'filter_order_Dir', 'asc', 'word');
+
+        if ($value != 'asc') {
+            $value = 'desc';
+        }
+
+        $this->setState('list.direction', $value);
+
+        // List state information.
+        parent::populateState($ordering, $direction);
+    }
 
     /**
      * @return  Pagination
@@ -447,45 +533,5 @@ class CategoriesModel extends KunenaModel
         }
 
         return $this->internalAdminCategories;
-    }
-
-    /**
-     * Method to auto-populate the model state.
-     *
-     * Note. Calling getState in this method will result in recursion.
-     *
-     * @param   string  $ordering   ordering
-     * @param   string  $direction  direction
-     *
-     * @return  void
-     *
-     * @since   Kunena 6.0
-     */
-    protected function populateState($ordering = 'a.lft', $direction = 'asc')
-    {
-        // Load the parameters.
-        $params = ComponentHelper::getParams('com_kunena');
-        $this->setState('params', $params);
-
-        // Set list state in order to be able to re-order the categories.
-        $value = $this->getUserStateFromRequest($this->context . '.list.start', 'limitstart', 0, 'int');
-        $this->setState('list.start', $value);
-
-        $value = $this->getUserStateFromRequest($this->context . '.list.limit', 'limit', $this->app->get('list_limit'), 'int');
-        $this->setState('list.limit', $value);
-
-        $value = $this->getUserStateFromRequest($this->context . '.list.ordering', 'filter_order', 'ordering', 'cmd');
-        $this->setState('list.ordering', $value);
-
-        $value = $this->getUserStateFromRequest($this->context . '.list.direction', 'filter_order_Dir', 'asc', 'word');
-
-        if ($value != 'asc') {
-            $value = 'desc';
-        }
-
-        $this->setState('list.direction', $value);
-
-        // List state information.
-        parent::populateState($ordering, $direction);
     }
 }

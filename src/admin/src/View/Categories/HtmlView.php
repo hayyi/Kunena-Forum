@@ -18,6 +18,7 @@ namespace Kunena\Forum\Administrator\View\Categories;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -83,11 +84,11 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->categories      = $this->get('AdminCategories');
-        $this->pagination      = $this->get('AdminNavigation');
-        $this->state           = $this->get('State');
-        $this->pagesTotal      = 100;
-        $this->batchCategories = $this->get('BatchCategories');
+        $this->state         = $this->get('State');
+        $this->categories    = $this->get('AdminCategories');
+        $this->pagination    = $this->get('AdminNavigation');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
 
         // Preprocess the list of items to find ordering divisions.
         $this->ordering = [];
@@ -96,16 +97,39 @@ class HtmlView extends BaseHtmlView
             $this->ordering[$item->parentid][] = $item->id;
         }
 
-        $this->sortFields          = $this->getSortFields();
-        $this->sortDirectionFields = $this->getSortDirectionFields();
+        // Written this way because we only want to call IsEmptyState if no items, to prevent always calling it when not needed.
+        /*if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+            $this->setLayout('emptystate');
+        }*/
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $this->user = Factory::getApplication()->getIdentity();
         $this->me   = KunenaUserHelper::getMyself();
+
+        // We don't need toolbar in the modal window.
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+
+            // We do not need to filter by language when multilingual is disabled
+            if (!Multilanguage::isEnabled()) {
+                unset($this->activeFilters['language']);
+                $this->filterForm->removeField('language', 'filter');
+            }
+        } else {
+            // In article associations modal we need to remove language filter if forcing a language.
+            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+                // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
+                $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+                $this->filterForm->setField($languageXml, 'filter', true);
+                
+                // Also, unset the active language filter so the search tools is not open by default with this filter.
+                unset($this->activeFilters['language']);
+            }
+        }
 
         $this->filter              = new \stdClass();
         $this->filter->Item        = $this->escape($this->state->get('item.id'));
@@ -125,8 +149,6 @@ class HtmlView extends BaseHtmlView
         $this->listDirection     = $this->escape($this->state->get('list.direction'));
         $this->saveOrder       = ($this->listOrdering == 'a.ordering' && $this->listDirection == 'asc');
         $this->saveOrderingUrl = 'index.php?option=com_kunena&view=categories&task=categories.saveorderajax';
-
-        $this->addToolbar();
 
         return parent::display($tpl);
     }
