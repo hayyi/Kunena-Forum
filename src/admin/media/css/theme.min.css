@@ -1343,15 +1343,6 @@ a:hover, a:focus, a:active {
 	visibility: hidden
 }
 
-.clearfix:before, .clearfix:after {
-	content: " ";
-	display: table
-}
-
-.clearfix:after {
-	clear: both
-}
-
 @media only screen and (max-width: 1023px) {
 	.w-sm-100 {
 		width: 100% !important
@@ -8487,4 +8478,13 @@ select.form-control {
 .kwho-blocked,
 .kwho-banned {
 	color: #A39D49;
+}
+
+.choices[data-type*=select-one] .choices__inner, .choices[data-type*=select-multiple] .choices__inner,
+.form-select, .custom-select {
+  background: none !important /* Joomla template hack */;
+}
+
+.js-stools-container-bar .btn-toolbar > * + * {
+  align-self: flex-start;
 }

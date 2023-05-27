@@ -45,7 +45,7 @@ $wa->useScript('multiselect');
 <div id="kunena" class="container-fluid">
     <div class="row">
         <div id="j-main-container" class="col-md-12" role="main">
-            <div class="card card-block bg-faded p-2">
+            <div class="p-2">
                 <form action="<?php echo KunenaRoute::_('administrator/index.php?option=com_kunena&view=users'); ?>"
                       method="post" id="adminForm"
                       name="adminForm">
@@ -54,6 +54,9 @@ $wa->useScript('multiselect');
                            value="<?php echo $this->escape($this->state->get('list.ordering')) ?>"/>
                     <input type="hidden" name="filter_order_Dir"
                            value="<?php echo $this->escape($this->state->get('list.direction')) ?>"/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="j-main-container" class="j-main-container">
 
                     <?php
                     // Search tools bar
@@ -286,7 +289,10 @@ $wa->useScript('multiselect');
                     </table>
                     <?php echo $this->loadTemplate('subscribecatsusers'); ?>
                     <?php echo $this->loadTemplate('moderators'); ?>
-                    
+
+                            </div>
+                        </div>
+                    </div>
                     <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo HTMLHelper::_('form.token'); ?>
