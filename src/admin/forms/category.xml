@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Kunena\Component\Kunena\Administrator\Field">
+  <fieldset>
+    <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+    <field name="ordering"/>
+    <field name="name" type="editor" buttons="true" class="inputbox" filter="safehtml" label="COM_KUNENA_FORM_LBL_CATEGORY_NAME" description="COM_KUNENA_FORM_DESC_CATEGORY_NAME" hint="COM_KUNENA_FORM_LBL_CATEGORY_NAME"/>
+    <field name="parentid" default="0" label="COM_KUNENA_FORM_LBL_CATEGORY_PARENTID" description="COM_KUNENA_FORM_DESC_CATEGORY_PARENTID" hint="COM_KUNENA_FORM_LBL_CATEGORY_PARENTID"/>
+    <field name="alias" label="JFIELD_ALIAS_LABEL" description="JFIELD_ALIAS_DESC" hint="COM_KUNENA_FORM_LBL_CATEGORY_ALIAS"/>
+    <field name="icon" label="COM_KUNENA_FORM_LBL_CATEGORY_ICON" description="COM_KUNENA_FORM_DESC_CATEGORY_ICON" hint="COM_KUNENA_FORM_LBL_CATEGORY_ICON"/>
+    <field name="icon_id" default="0" label="COM_KUNENA_FORM_LBL_CATEGORY_ICON_ID" description="COM_KUNENA_FORM_DESC_CATEGORY_ICON_ID" hint="COM_KUNENA_FORM_LBL_CATEGORY_ICON_ID"/>
+    <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL" description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+  </fieldset>
+</form>

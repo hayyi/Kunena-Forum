@@ -49,6 +49,12 @@ class CategoryController extends KunenaController
     protected $basecategoryurl = null;
 
     /**
+     * @var mixed
+     * @since version
+     */
+    public $pagesTotal = null;
+
+    /**
      * Constructor.
      *
      * @param   array  $config  An optional associative array of configuration settings.

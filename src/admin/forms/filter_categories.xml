@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" description="COM_KUNENA_SEARCH_FILTER_SUBMIT"
+               label="COM_USERS_FILTER_SEARCH_DESC"
+               class="js-stools-search-string" />
+
+        <field name="state"
+               type="status"
+               label="COM_KUNENA_FILTER_STATE"
+               description="COM_KUNENA_FILTER_STATE_DESC"
+               onchange="this.form.submit();"
+        >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
+
+        
+
+    </fields>
+
+    <fields name="list">
+
+        <field name="fullordering"
+               type="list"
+               label="COM_KUNENA_LIST_FULL_ORDERING"
+               description="COM_KUNENA_LIST_FULL_ORDERING_DESC"
+               onchange="this.form.submit();"
+               default="a.id DESC"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="a.id ASC">COM_KUNENA_ID_ASC</option><option value="a.id DESC">COM_KUNENA_ID_DESC</option><option value="a.ordering ASC">COM_KUNENA_ORDERING_ASC</option><option value="a.ordering DESC">COM_KUNENA_ORDERING_DESC</option><option value="a.name ASC">COM_KUNENA_NAME_ASC</option><option value="a.name DESC">COM_KUNENA_NAME_DESC</option><option value="a.parentid ASC">COM_KUNENA_PARENTID_ASC</option><option value="a.parentid DESC">COM_KUNENA_PARENTID_DESC</option><option value="a.alias ASC">COM_KUNENA_ALIAS_ASC</option><option value="a.alias DESC">COM_KUNENA_ALIAS_DESC</option><option value="a.icon ASC">COM_KUNENA_ICON_ASC</option><option value="a.icon DESC">COM_KUNENA_ICON_DESC</option><option value="a.icon_id ASC">COM_KUNENA_ICON_ID_ASC</option><option value="a.icon_id DESC">COM_KUNENA_ICON_ID_DESC</option>
+
+        </field>
+
+       <field name="limit"
+               type="limitbox"
+               label="COM_KUNENA_LIST_LIMIT"
+               description="COM_KUNENA_LIST_LIMIT_DESC"
+               class="input-mini"
+               default="25"
+               onchange="this.form.submit();"
+        />
+
+    </fields>
+
+</form>

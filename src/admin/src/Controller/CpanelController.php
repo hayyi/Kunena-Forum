@@ -60,7 +60,7 @@ class CpanelController extends FormController
      * @throws  Exception
      * @since   Kunena 2.0.0-BETA2
      */
-    public static function onGetIcons()
+    public function onGetIcons()
     {
         $updateInfo = null;
 

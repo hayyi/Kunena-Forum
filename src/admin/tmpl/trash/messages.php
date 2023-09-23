@@ -76,7 +76,7 @@ $wa->useScript('multiselect');
                             <div class="btn-group pull-right d-none d-md-block">
                                 <label for="directionTable"
                                        class="element-invisible"><?php echo Text::_('JFIELD_ORDERING_DESC'); ?></label>
-                                <select name="directionTable" id="directionTable" class="input-medium"
+                                <select name="directionTable" id="directionTable" class="form-select"
                                         onchange="orderTable()">
                                     <option value=""><?php echo Text::_('JFIELD_ORDERING_DESC'); ?></option>
                                     <?php echo HTMLHelper::_('select.options', $this->sortDirectionFields, 'value', 'text', $this->list->Direction); ?>
@@ -85,7 +85,7 @@ $wa->useScript('multiselect');
                             <div class="btn-group pull-right">
                                 <label for="sortTable"
                                        class="element-invisible"><?php echo Text::_('JGLOBAL_SORT_BY'); ?></label>
-                                <select name="sortTable" id="sortTable" class="input-medium"
+                                <select name="sortTable" id="sortTable" class="form-select"
                                         onchange="orderTable()">
                                     <option value=""><?php echo Text::_('JGLOBAL_SORT_BY'); ?></option>
                                     <?php echo HTMLHelper::_('select.options', $this->sortFields, 'value', 'text', $this->list->Ordering); ?>

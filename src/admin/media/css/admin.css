@@ -316,3 +316,7 @@ div.current input, div.current textarea, div.current select {
   margin-top: 20px;
   font-size: 32px;
 }
+
+.form-select, .custom-select {
+  background: none !important;
+}

@@ -16,16 +16,14 @@ namespace Kunena\Forum\Administrator\View\Categories;
 \defined('_JEXEC') or die();
 
 use Exception;
-use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Kunena\Forum\Libraries\Forum\Category\KunenaCategory;
-use Kunena\Forum\Libraries\User\KunenaUserHelper;
 
 /**
  * About view for Kunena backend
@@ -73,62 +71,34 @@ class HtmlView extends BaseHtmlView
     protected $filterActive;
 
     /**
-     * @param   null  $tpl  tpl
+     * @param null $tpl tpl
      *
      * @return  void
      *
+     * @throws Exception
      * @since   Kunena 6.0
      *
-     * @throws Exception
      */
     public function display($tpl = null)
     {
-        $this->categories      = $this->get('AdminCategories');
-        $this->pagination      = $this->get('AdminNavigation');
-        $this->state           = $this->get('State');
-        $this->pagesTotal      = 100;
-        $this->batchCategories = $this->get('BatchCategories');
+        $this->items         = $this->get('Items');
+        $this->state         = $this->get('state');
+        $this->pagination    = $this->get('Pagination');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
+        $this->pagesTotal    = $this->pagination->pagesTotal ?? null;
 
-        // Preprocess the list of items to find ordering divisions.
-        $this->ordering = [];
-
-        foreach ($this->categories as $item) {
-            $this->ordering[$item->parentid][] = $item->id;
-        }
-
-        $this->sortFields          = $this->getSortFields();
-        $this->sortDirectionFields = $this->getSortDirectionFields();
+        $errors = $this->get('Errors');
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+        if (is_countable($errors) && (count($errors))) {
+            throw new Exception(implode("\n", $errors));
         }
-
-        $this->user = Factory::getApplication()->getIdentity();
-        $this->me   = KunenaUserHelper::getMyself();
-
-        $this->filter              = new \stdClass();
-        $this->filter->Item        = $this->escape($this->state->get('item.id'));
-        $this->filter->Search      = $this->escape($this->state->get('filter.search'));
-        $this->filter->Published   = $this->escape($this->state->get('filter.published'));
-        $this->filter->Title       = $this->escape($this->state->get('filter.title'));
-        $this->filter->Type        = $this->escape($this->state->get('filter.type'));
-        $this->filter->Access      = $this->escape($this->state->get('filter.access'));
-        $this->filter->Locked      = $this->escape($this->state->get('filter.locked'));
-        $this->filter->Review      = $this->escape($this->state->get('filter.review'));
-        $this->filter->Allow_polls = $this->escape($this->state->get('filter.allowPolls'));
-        $this->filter->Anonymous   = $this->escape($this->state->get('filter.anonymous'));
-        $this->filter->Active      = $this->escape($this->state->get('filter.active'));
-        $this->filter->Levels      = $this->escape($this->state->get('filter.levels'));
-
-        $this->listOrdering      = $this->escape($this->state->get('list.ordering'));
-        $this->listDirection     = $this->escape($this->state->get('list.direction'));
-        $this->saveOrder       = ($this->listOrdering == 'a.ordering' && $this->listDirection == 'asc');
-        $this->saveOrderingUrl = 'index.php?option=com_kunena&view=categories&task=categories.saveorderajax';
 
         $this->addToolbar();
 
-        return parent::display($tpl);
+        $this->sidebar = Sidebar::render();
+        parent::display($tpl);
     }
 
     /**
@@ -140,7 +110,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function getSortFields(): array
     {
-        $sortFields   = [];
+        $sortFields = [];
         $sortFields[] = HTMLHelper::_('select.option', 'ordering', Text::_('COM_KUNENA_REORDER'));
         $sortFields[] = HTMLHelper::_('select.option', 'p.published', Text::_('JSTATUS'));
         $sortFields[] = HTMLHelper::_('select.option', 'p.title', Text::_('JGLOBAL_TITLE'));
@@ -163,7 +133,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function getSortDirectionFields(): array
     {
-        $sortDirection   = [];
+        $sortDirection = [];
         $sortDirection[] = HTMLHelper::_('select.option', 'asc', Text::_('JGLOBAL_ORDER_ASCENDING'));
         $sortDirection[] = HTMLHelper::_('select.option', 'desc', Text::_('JGLOBAL_ORDER_DESCENDING'));
 
@@ -179,9 +149,6 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $this->filterActive = $this->escape($this->state->get('filter.active'));
-        $this->pagination   = $this->get('AdminNavigation');
-
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance();
 
@@ -195,21 +162,21 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::unpublish('categories.unpublish');
         ToolbarHelper::divider();
 
-         $dropdown = $toolbar->dropdownButton('status-group')
-           ->text('JTOOLBAR_CHANGE_STATUS')
-           ->toggleSplit(false)
-           ->icon('icon-ellipsis-h')
-           ->buttonClass('btn btn-action')
-           ->listCheck(true);
+        $dropdown = $toolbar->dropdownButton('status-group')
+            ->text('JTOOLBAR_CHANGE_STATUS')
+            ->toggleSplit(false)
+            ->icon('icon-ellipsis-h')
+            ->buttonClass('btn btn-action')
+            ->listCheck(true);
 
         $childBar = $dropdown->getChildToolbar();
 
         $childBar->delete('categories.delete')->listCheck(true);
 
         $childBar->popupButton('batch')
-           ->text('JTOOLBAR_BATCH')
-           ->selector('batchCategories')
-           ->listCheck(true);
+            ->text('JTOOLBAR_BATCH')
+            ->selector('batchCategories')
+            ->listCheck(true);
 
         ToolbarHelper::spacer();
         $helpUrl = 'https://docs.kunena.org/en/setup/sections-categories';
@@ -226,7 +193,7 @@ class HtmlView extends BaseHtmlView
     public function publishedOptions(): array
     {
         // Build the active state filter options.
-        $options   = [];
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_KUNENA_FIELD_LABEL_ON'));
         $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_KUNENA_FIELD_LABEL_OFF'));
 
@@ -243,7 +210,7 @@ class HtmlView extends BaseHtmlView
     public function lockOptions(): array
     {
         // Build the active state filter options.
-        $options   = [];
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_KUNENA_FIELD_LABEL_ON'));
         $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_KUNENA_FIELD_LABEL_OFF'));
 
@@ -260,7 +227,7 @@ class HtmlView extends BaseHtmlView
     public function reviewOptions(): array
     {
         // Build the active state filter options.
-        $options   = [];
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_KUNENA_FIELD_LABEL_ON'));
         $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_KUNENA_FIELD_LABEL_OFF'));
 
@@ -277,7 +244,7 @@ class HtmlView extends BaseHtmlView
     public function allowPollsOptions(): array
     {
         // Build the active state filter options.
-        $options   = [];
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_KUNENA_FIELD_LABEL_ON'));
         $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_KUNENA_FIELD_LABEL_OFF'));
 
@@ -293,7 +260,7 @@ class HtmlView extends BaseHtmlView
     public function anonymousOptions(): array
     {
         // Build the active state filter options.
-        $options   = [];
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_KUNENA_FIELD_LABEL_ON'));
         $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_KUNENA_FIELD_LABEL_OFF'));
 
