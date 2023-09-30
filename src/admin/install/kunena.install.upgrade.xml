@@ -199,6 +199,11 @@
                  versionname="Internal">
             <query mode="silenterror">ALTER TABLE `#__kunena_private_user_map` CHANGE `read_at` `read_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE `replied_at` `replied_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE `deleted_at` `deleted_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;</query>
         </version>
+        <version version="6.1.4"
+                 versiondate="2023-09-16"
+                 versionname="Internal">
+            <query mode="silenterror">ALTER TABLE `#__kunena_categories` CHANGE `icon` `icon` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;</query>
+        </version>
         <version version="6.2.0-DEV"
                  versiondate="2023-06-22"
                  versionname="Internal">
@@ -221,19 +226,14 @@
                  versiondate="2023-08-27"
                  versionname="Internal">
             <query mode="silenterror">
-            CREATE TABLE IF NOT EXISTS `#__kunena_mails_queue`
-(
-    `id`             int(11)      NOT NULL auto_increment,
-    `subject`        varchar(150) NOT NULL,
-    `message_id`     int(11)      NULL,
-    `sent_to`        varchar(200) NOT NULL,
-    `message_url`    varchar(150) NOT NULL,
-    `is_sent`        int(11)      NULL,
-    PRIMARY KEY (id)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    DEFAULT COLLATE = utf8mb4_unicode_ci;
+            DROP TABLE IF EXISTS `#__kunena_mails_queue`;
+            </query>
+        </version>
+        <version version="6.2.0-BETA3-DEV"
+                 versiondate="2023-09-30"
+                 versionname="Internal">
+            <query mode="silenterror">
+            ALTER TABLE `#__kunena_rate` MODIFY COLUMN `time` DATETIME NOT NULL DEFAULT '1000-01-01 00:00:00';
             </query>
         </version>
         <version version="@kunenaversion@"
