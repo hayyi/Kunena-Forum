@@ -6,7 +6,7 @@
  * @package         Kunena.Site
  * @subpackage      Controller.Application
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -36,6 +36,12 @@ use Joomla\CMS\Document\Feed\FeedItem;
  */
 class TopicsDisplay extends KunenaControllerDisplay
 {
+    public $topicsModel;
+
+    public $me;
+
+    public $topics;
+
     /**
      * Return true if layout exists.
      *

@@ -6,7 +6,7 @@
  * @package         Kunena.Administrator.Template
  * @subpackage      Categories
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -250,8 +250,6 @@ $this->document->addScriptDeclaration(
                                 <?php echo $this->pagination->getListFooter(); ?>
                                 <?php // Load the batch processing form. ?>
                                 <?php echo $this->loadTemplate('batch'); ?>
-                                <?php // Load the modal to confirm delete. ?>
-                                <?php echo $this->loadTemplate('confirmdelete'); ?>
                             </td>
                         </tr>
                         </tfoot>

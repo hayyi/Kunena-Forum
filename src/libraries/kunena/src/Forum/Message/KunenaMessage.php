@@ -6,7 +6,7 @@
  * @package       Kunena.Framework
  * @subpackage    Forum.Message
  *
- * @copyright     Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright     Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license       https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link          https://www.kunena.org
  **/
@@ -874,7 +874,7 @@ class KunenaMessage extends KunenaDatabaseObject
         $attachments = $this->getAttachments();
 
         foreach ($attachments as $attachment) {
-            $file = Uri::root() . $attachment->filename;
+            $file = JPATH_SITE . '/media/kunena/attachments/' . $attachment->userid . '/' . $attachment->filename;
             File::delete($file);
 
             if (!$attachment->delete()) {
@@ -1399,7 +1399,7 @@ class KunenaMessage extends KunenaDatabaseObject
             $this->name = $author->getName();
         }
 
-        if (isset($this->email)) {
+        if (!empty($this->email)) {
             // Check email address
             $this->email = trim($this->email);
 

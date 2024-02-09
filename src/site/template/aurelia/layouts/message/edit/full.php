@@ -6,7 +6,7 @@
  * @package     Kunena.Template.Aurelia
  * @subpackage  Layout.Message
  *
- * @copyright   Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license     https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link        https://www.kunena.org
  **/
@@ -36,11 +36,6 @@ $topic    = isset($this->topic) ? $this->topic : $message->getTopic();
 $category = isset($this->category) ? $this->category : $message->getCategory();
 $config   = isset($this->config) ? $this->config : KunenaFactory::getConfig();
 $me       = isset($this->me) ? $this->me : KunenaUserHelper::getMyself();
-
-// Load caret.js always before atwho.js script and use it for autocomplete, emojiis...
-$this->addStyleSheet('jquery.atwho.css');
-$this->addScript('jquery.caret.js');
-$this->addScript('jquery.atwho.js');
 
 $this->addScriptOptions('com_kunena.kunena_topicicontype', '');
 $this->addScriptOptions('com_kunena.kunena_quickreplymesid', $message->displayField('id'));

@@ -6,7 +6,7 @@
  * @package         Kunena.Site
  * @subpackage      Controller.Topic
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -82,6 +82,8 @@ class TopicFormEditDisplay extends KunenaControllerDisplay
     public $me;
 
     public $catid;
+    
+    public $poll;
 
     /**
      * Prepare topic edit form.

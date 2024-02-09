@@ -6,7 +6,7 @@
  * @package       Kunena.Framework
  * @subpackage    Forum
  *
- * @copyright     Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright     Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license       https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link          https://www.kunena.org
  **/
@@ -442,11 +442,10 @@ class KunenaStatistics
     public function loadTopTopics($limit = 0): array
     {
         $limit           = $limit ? $limit : $this->_config->popSubjectCount;
-        $this->topTopics = [];
 
         if ($this->topTopics < $limit) {
             $params = ['orderby' => 'posts DESC'];
-            list($this->topTopics) = KunenaTopicHelper::getLatestTopics(false, 0, $limit, $params);
+            list($total, $this->topTopics) = KunenaTopicHelper::getLatestTopics(false, 0, $limit, $params);
 
             $top = reset($this->topTopics);
 

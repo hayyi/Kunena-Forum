@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.User
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -51,7 +51,7 @@ $avatar        = KunenaFactory::getAvatarIntegration();
       enctype="multipart/form-data" name="kuserform"
       class="form-validate" id="kuserform">
     <input type="hidden" name="task" value="save"/>
-    <input type="hidden" name="userid" value="<?php echo (int) $this->user->id; ?>"/>
+    <input type="hidden" name="userid" value="<?php echo (int) $this->profile->userid; ?>"/>
     <?php echo HTMLHelper::_('form.token'); ?>
 
     <div class="tabs">

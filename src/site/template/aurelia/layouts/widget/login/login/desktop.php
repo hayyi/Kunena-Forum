@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.Widget
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -79,7 +79,7 @@ use Kunena\Forum\Libraries\Route\KunenaRoute;
                     <div class="form-group row center" id="kform-login-remember">
                         <div class="controls">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" name="klogin-desktop-remember"
+                                <input type="checkbox" class="custom-control-input" name="rememberme"
                                        id="klogin-desktop-remember"
                                        value="1"/>
                                 <label class="custom-control-label"

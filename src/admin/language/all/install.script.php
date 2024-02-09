@@ -5,7 +5,7 @@
  *
  * @package       Kunena.Installer
  *
- * @copyright     Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright     Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license       https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link          https://www.kunena.org
  **/
@@ -14,9 +14,11 @@ defined('_JEXEC') or die();
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Database\DatabaseInterface;
 use Kunena\Forum\Libraries\Forum\KunenaForum;
 use Joomla\CMS\Table\Extension;
+use Joomla\Filesystem\File;
 
 /**
  * Class pkg_kunena_languagesInstallerScript
@@ -74,7 +76,7 @@ class pkg_kunena_languagesInstallerScript
 
         // Get list of languages to be installed.
         $source    = $parent->getParent()->getPath('source') . '/language';
-        $languages = Joomla\CMS\Language\LanguageHelper::getKnownLanguages();
+        $languages = LanguageHelper::getKnownLanguages();
 
         $files = $parent->manifest->files;
 
@@ -111,6 +113,24 @@ class pkg_kunena_languagesInstallerScript
         }
 
         return true;
+    }
+
+    /**
+     * Method to run after an install/update/uninstall method
+     * 
+     * @return void
+     * 
+     * @since   Kunena 6.2
+     */
+    public function postflight($type, $parent)
+    {
+        $languages = LanguageHelper::getKnownLanguages();
+
+        foreach ($languages as $language) {
+            if (file_exists(JPATH_SITE . '/language/' . $language['tag'] . '/' . $language['tag'] . '.kunena_ckeditor.js')) {
+                File::copy(JPATH_SITE . '/language/' . $language['tag'] . '/' . $language['tag'] . '.kunena_ckeditor.js', JPATH_SITE . '/media/kunena/core/js/lang/' . substr($language['tag'], 0, 2) . '.js');
+            }
+        }
     }
 
     /**

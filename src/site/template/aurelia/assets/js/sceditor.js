@@ -2,7 +2,7 @@
  * Kunena Component
  * @package Kunena.Template.Aurelia
  *
- * @copyright     Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright     Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link https://www.kunena.org
  **/
@@ -625,10 +625,12 @@ jQuery(document).ready(function ($) {
 					'<input type="text" id="polltitle" />' +
 					'</div>' +
 					'<div>' +
-					'<button type="button" class="btn btn-primary btn-sm" name="addpolloption">' + Joomla.Text._('COM_KUNENA_SCEDITOR_BUTTON_BUTTON_ADD_POLL_OPTION') + '</button> ' +
+					'<button type="button" class="btn btn-primary btn-sm addpolloption" name="addpolloption">' + Joomla.Text._('COM_KUNENA_SCEDITOR_BUTTON_BUTTON_ADD_POLL_OPTION') + '</button> ' +
 					'</div>' +
 					'<div>' +
-					'<button type="button" class="btn btn-primary btn-sm" name="removepolloption">' + Joomla.Text._('COM_KUNENA_SCEDITOR_BUTTON_BUTTON_REMOVE_POLL_OPTION') + '</button> ' +
+					'<button type="button" class="btn btn-primary btn-sm removepolloption" name="removepolloption">' + Joomla.Text._('COM_KUNENA_SCEDITOR_BUTTON_BUTTON_REMOVE_POLL_OPTION') + '</button> ' +
+					'</div>' +
+					'<div id="poll_options">' +
 					'</div>' +
 					'<div>' +
 					'<label for="polllifespan">' + Joomla.Text._('COM_KUNENA_SCEDITOR_BUTTON_INSERT_POLL_LIFE_SPAN') + '</label> ' +
@@ -637,6 +639,26 @@ jQuery(document).ready(function ($) {
 					'<div><input type="button" class="button" value="' + Joomla.Text._('COM_KUNENA_SCEDITOR_BUTTON_INSERT_LABEL') + '" /></div>' +
 					'</div>'
 				);
+
+				var poll_number_option = 0;
+                
+				$content.find('.addpolloption').on('click', function (e) {
+					poll_number_option++;
+
+                    			var poll_option_label = '<label for="poll_option" id="poll_option_label'+poll_number_option+'" >Poll option '+poll_number_option+'</label>';
+					var poll_option = '<input type="text" id="poll_option'+poll_number_option+'" />';
+                    
+                    			jQuery('#poll_options').append( poll_option_label );
+                    			jQuery('#poll_options').append( poll_option );
+				});
+
+				$content.find('.removepolloption').on('click', function (e) {
+					if (poll_number_option > 0) {
+                        			jQuery('#poll_option'+poll_number_option).remove();
+                        			jQuery('#poll_option_label'+poll_number_option).remove();
+                        			poll_number_option--;
+                    			}
+				});
 	
 				$content.find('.button').on('click', function (e) {
 					var polltitle = $content.find('#polltitle').val();

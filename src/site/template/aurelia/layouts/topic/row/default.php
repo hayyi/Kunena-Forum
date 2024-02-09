@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.Topic
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -44,6 +44,12 @@ if ($this->topic->hold == 1) {
 
 if ($this->topic->moved_id > 0) {
     $txt .= ' ' . 'moved';
+}
+
+// Display in grey topics which in unpublished category
+if ($this->topic->getCategory()->published == 0) {
+    $txt = '-grey';
+    $category->class_sfx = '';
 }
 
 if (!empty($this->spacing)) : ?>

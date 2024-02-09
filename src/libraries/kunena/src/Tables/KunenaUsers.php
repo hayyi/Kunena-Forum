@@ -6,7 +6,7 @@
  * @package         Kunena.Framework
  * @subpackage      Tables
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -137,12 +137,6 @@ class KunenaUsers extends KunenaTable
      * @since   Kunena
      **/
     public $karma = null;
-
-    /**
-     * @var     null
-     * @since   Kunena 6.0
-     */
-    public $karma_time = null;
 
     /**
      * Kunena Group ID

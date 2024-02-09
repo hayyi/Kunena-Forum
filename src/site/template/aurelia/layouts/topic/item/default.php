@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.Topic
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -32,11 +32,6 @@ Text::script('COM_KUNENA_SOCIAL_LINKEDIN_LABEL');
 Text::script('COM_KUNENA_SOCIAL_PINTEREST_LABEL');
 Text::script('COM_KUNENA_SOCIAL_WHATSAPP_LABEL');
 Text::script('COM_KUNENA_SOCIAL_REDDIT_LABEL');
-
-// Load caret.js always before atwho.js script and use it for autocomplete, emojiis...
-$this->addStyleSheet('jquery.atwho.css');
-$this->addScript('jquery.caret.js');
-$this->addScript('jquery.atwho.js');
 
 $this->addScript('assets/js/topic.js');
 

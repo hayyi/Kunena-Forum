@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.User
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -25,10 +25,6 @@ $config = $this->config;
 
 $cols = 1;
 
-// Load caret.js always before atwho.js script and use it for autocomplete, emojiis...
-$this->addScript('jquery.caret.js');
-$this->addScript('jquery.atwho.js');
-$this->addStyleSheet('jquery.atwho.css');
 $this->addScript('assets/js/search.js');
 ?>
 <h1>

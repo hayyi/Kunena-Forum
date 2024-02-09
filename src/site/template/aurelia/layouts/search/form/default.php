@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.Search
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -35,12 +35,7 @@ if ($bootstrap) {
 
 echo $this->subLayout('Widget/Datepicker');
 
-// Load caret.js always before atwho.js script and use it for autocomplete, emojiis...
-$this->addScript('jquery.caret.js');
-$this->addScript('jquery.atwho.js');
-$this->addStyleSheet('jquery.atwho.css');
 $this->addScript('assets/js/search.js');
-
 ?>
 
 <form action="<?php echo KunenaRoute::_('index.php?option=com_kunena&view=search'); ?>" method="post" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">

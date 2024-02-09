@@ -6,7 +6,7 @@
  * @package         Kunena.Administrator
  * @subpackage      Controllers
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -136,6 +136,11 @@ class SmiliesController extends FormController
         $smileyLocation    = basename($this->input->getString('smiley_url'));
         $smileyEmoticonBar = $this->input->getInt('smileyEmoticonBar', 0);
         $smileyId          = $this->input->getInt('smileyId', 0);
+
+        if (empty($smileyCode)) {
+            $this->app->enqueueMessage(Text::_('COM_KUNENA_SMILEY_SMILEY_CODE_CANNOT_BE_EMPTY'), 'error');
+            $this->setRedirect(KunenaRoute::_($this->baseurl, false));
+        }
 
         if (!$smileyId) {
             $query = $db->getQuery(true)

@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.Widget
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -18,12 +18,24 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Kunena\Forum\Libraries\Html\KunenaParser;
 use Kunena\Forum\Libraries\Route\KunenaRoute;
+use Joomla\CMS\Factory;
 
 $this->wa->registerAndUseScript('ckeditor', 'media/kunena/core/js/ckeditor.js');
 $this->doc->addScriptOptions('com_kunena.ckeditor_config', $this->template->params->get('ckeditorcustomprefixconfigfile') . 'ckeditor_config.js');
 $this->doc->addScriptOptions('com_kunena.ckeditor_buttons_configuration', $this->template->params->get('editorButtons'));
 $this->doc->addScriptOptions('com_kunena.ckeditor_subfolder', Uri::root(true));
 $this->doc->addScriptOptions('com_kunena.ckeditor_skiname', $this->template->params->get('nameskinckeditor'));
+
+$user = Factory::getApplication()->getIdentity();
+$userLanguage = $user->getParam('language', 'default');
+$joomlaLanguage = Factory::getApplication()->getLanguage()->getTag();
+if ($userLanguage != 'default') {
+    $this->doc->addScriptOptions('com_kunena.ckeditor_userdefaultlanguage', substr($userLanguage, 0, 2));
+} else {
+    $this->doc->addScriptOptions('com_kunena.ckeditor_userdefaultlanguage', 'default');
+}
+
+$this->doc->addScriptOptions('com_kunena.ckeditor_joomladefaultlanguage', substr($joomlaLanguage, 0, 2));
 
 HTMLHelper::_('bootstrap.tab');
 
@@ -32,12 +44,6 @@ HTMLHelper::_('bootstrap.tab');
 // $this->addScript('edit.js');
 
 // Echo $this->subLayout('Widget/Datepicker');
-
-// Load caret.js always before atwho.js script and use it for autocomplete, emojiis...
-/*
-$this->addScript('jquery.caret.js');
-$this->addScript('jquery.atwho.js');
-$this->addStyleSheet('jquery.atwho.css');*/
 
 $topictemplate = !$this->config->pickup_category;
 $this->doc->addScriptOptions('com_kunena.ckeditor_emoticons', json_encode(KunenaParser::getEmoticons(0, 1, 0)));

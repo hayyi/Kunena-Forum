@@ -6,7 +6,7 @@
  * @package         Kunena.Framework
  * @subpackage      Template
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -1812,7 +1812,7 @@ HTML;
         $fontawesome          = $this->params->get('fontawesome');
 
         if ($fontawesome) {
-            $this->addScript('https://use.fontawesome.com/releases/v6.4.2/js/all.js', [], ['defer' => true]);
+            $this->addScript('https://use.fontawesome.com/releases/v6.5.1/js/all.js', [], ['defer' => true]);
         }
     }
 

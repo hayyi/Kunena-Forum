@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Topic
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -96,7 +96,7 @@ Text::script('COM_KUNENA_UPLOADED_LABEL_INSERT_ALL_BUTTON');
 Text::script('COM_KUNENA_EDITOR_INSERT');
 Text::script('COM_KUNENA_EDITOR_IN_MESSAGE');
 Text::script('COM_KUNENA_GEN_REMOVE_FILE');
-Text::sprintf('COM_KUNENA_UPLOADED_LABEL_ERROR_REACHED_MAX_NUMBER_FILES', $this->config->attachmentLimit, ['script' => true]);
+Text::script('COM_KUNENA_UPLOADED_LABEL_ERROR_REACHED_MAX_NUMBER_FILES');
 Text::script('COM_KUNENA_UPLOADED_LABEL_UPLOAD_BUTTON');
 Text::script('COM_KUNENA_UPLOADED_LABEL_PROCESSING_BUTTON');
 Text::script('COM_KUNENA_UPLOADED_LABEL_ABORT_BUTTON');
@@ -384,7 +384,7 @@ Text::script('COM_KUNENA_POLL_TITLE');
                         <input class="form-control" name="modified_reason"
                                maxlength="200"
                                type="text"
-                               value="<?php echo $this->modified_reason; ?>" data-bs-toggle="tooltip" title="reason"
+                               value="<?php echo $this->modified_reason; ?>" data-bs-toggle="tooltip" title="<?php echo Text::_('COM_KUNENA_EDITING_ENTER_REASON') ?>"
                                placeholder="<?php echo Text::_('COM_KUNENA_EDITING_ENTER_REASON') ?>"/>
                     </div>
                 </div>

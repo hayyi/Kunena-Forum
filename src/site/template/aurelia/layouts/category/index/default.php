@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.Category
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -120,7 +120,7 @@ foreach ($this->sections as $section) :
                                             <span id="kcatcount"><?php echo KunenaCategory::getInstance()->totalCount($category->getTopics()); ?></span>
                                             <span>
                                                 <?php if (($new = $category->getNewCount()) > 0) : ?>
-                                                    <sup class="knewchar"> (<?php echo $new . Text::_('COM_KUNENA_A_GEN_NEWCHAR') ?>
+                                                    <sup class="knewchar"> (<?php echo $new . ' ' . Text::_('COM_KUNENA_A_GEN_NEWCHAR') ?>
                                                         )</sup>
                                                 <?php endif; ?>
                                                 <?php if ($category->locked) : ?>

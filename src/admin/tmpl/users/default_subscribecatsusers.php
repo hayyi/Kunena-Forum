@@ -6,7 +6,7 @@
  * @package         Kunena.Administrator.Users
  * @subpackage      Users
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -33,7 +33,7 @@ use Joomla\CMS\Language\Text;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo Text::_('JCANCEL'); ?></button>
-        <button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('users.subscribeuserstocategories');">><?php echo Text::_('JSUBMIT'); ?></button>
+        <button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('users.subscribeuserstocategories');"><?php echo Text::_('JSUBMIT'); ?></button>
       </div>
     </div>
   </div>

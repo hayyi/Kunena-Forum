@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.Topic
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -61,7 +61,7 @@ if (!empty($this->spacing)) : ?>
     </tr>
 <?php endif; ?>
 
-<tr class="category<?php echo $this->escape($category->class_sfx) . $txt; ?>">
+<tr class="category<?php echo $txt; ?>">
     <?php if ($topic->unread) : ?>
         <th scope="row" class="d-none d-md-table-cell topic-item-unread center">
             <?php echo $this->getTopicLink($topic, 'unread', KunenaTemplate::getInstance()->getTopicIcon($topic), '', null, $category, true, true); ?>

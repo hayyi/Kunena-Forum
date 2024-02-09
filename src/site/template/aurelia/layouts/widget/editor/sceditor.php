@@ -6,7 +6,7 @@
  * @package         Kunena.Template.Aurelia
  * @subpackage      Layout.Widget
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -60,12 +60,6 @@ $this->doc->addScriptOptions('com_kunena.editor_emoticons', json_encode(KunenaPa
 $this->wa->registerAndUseScript('sceditor', 'components/com_kunena/template/aurelia/assets/js/sceditor.js');
 
 // Echo $this->subLayout('Widget/Datepicker');
-
-// Load caret.js always before atwho.js script and use it for autocomplete, emojiis...
-/*
- $this->addScript('jquery.caret.js');
- $this->addScript('jquery.atwho.js');
- $this->addStyleSheet('jquery.atwho.css');*/
 
 $topictemplate = !$this->config->pickup_category;
 $this->doc->addScriptOptions('com_kunena.ckeditor_emoticons', json_encode(KunenaParser::getEmoticons(0, 1, 0)));

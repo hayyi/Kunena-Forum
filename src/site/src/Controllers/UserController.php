@@ -6,7 +6,7 @@
  * @package         Kunena.Site
  * @subpackage      Controllers
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -240,15 +240,6 @@ class UserController extends KunenaController
             }
         }
 
-        $this->me->karma_time = $now;
-
-        if ($this->me->userid != $target->userid && !$this->me->save()) {
-            $this->app->enqueueMessage($this->me->getError(), 'error');
-            $this->setRedirectBack();
-
-            return;
-        }
-
         $target->karma += $karmaDelta;
 
         // Save the user with the plus or minus karma given, in #__kunena_user remove karma_time
@@ -313,7 +304,7 @@ class UserController extends KunenaController
 
         if (!$moderator) {
             if ($userid != $my->id) {
-                throw new KunenaExceptionAuthorise(Text::_('COM_KUNENA_ERROR_TOKEN'), 403);
+                throw new KunenaExceptionAuthorise(Text::_('COM_KUNENA_PROFILE_NOT_MODERATOR_RIGHT'), 403);
             }
         }
 
@@ -956,7 +947,7 @@ class UserController extends KunenaController
 
         $username  = $input->$method->get('username', '', 'USERNAME');
         $password  = $input->$method->get('password', '', 'RAW');
-        $remember  = $this->input->getBool('remember', false);
+        $remember  = $this->input->getBool('rememberme', false);
         $secretkey = $input->$method->get('secretkey', '', 'RAW');
 
         $login = KunenaLogin::getInstance();

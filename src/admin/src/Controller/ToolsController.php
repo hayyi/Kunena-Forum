@@ -6,7 +6,7 @@
  * @package         Kunena.Administrator
  * @subpackage      Controllers
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -442,7 +442,7 @@ class ToolsController extends FormController
         }
 
         $token    = Session::getFormToken() . '=1';
-        $redirect = KunenaRoute::_("{$this->baseurl}&task=doRecount&i={$state->reload}&{$token}", false);
+        $redirect = KunenaRoute::_("{$this->baseurl}&task=tools.doRecount&i={$state->reload}&{$token}", false);
         $this->setResponse(
             [
                 'success' => true,
@@ -623,7 +623,7 @@ class ToolsController extends FormController
         }
 
         $token    = Session::getFormToken() . '=1';
-        $redirect = KunenaRoute::_("{$this->baseurl}&task=doRecount&i={$state->reload}&{$token}", false);
+        $redirect = KunenaRoute::_("{$this->baseurl}&task=tools.doRecount&i={$state->reload}&{$token}", false);
         $this->setResponse(
             [
                 'success' => true,

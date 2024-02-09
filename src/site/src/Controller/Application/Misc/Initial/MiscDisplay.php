@@ -6,7 +6,7 @@
  * @package         Kunena.Site
  * @subpackage      Controller.Application
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -152,19 +152,13 @@ class MiscDisplay extends Display
         if ($format == 'html') {
             $this->body = trim($body);
         } elseif ($format == 'text') {
-            $this->body = function () use ($body) {
-
-                return htmlspecialchars($body, ENT_COMPAT, 'UTF-8');
-            };
+            $this->body = htmlspecialchars($body, ENT_COMPAT, 'UTF-8');
         } else {
-            $this->body = function () use ($body) {
+            $options = ['defaultgroup' => 'com_kunena'];
+            $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
+            $cache->setLifeTime(180);
 
-                $options = ['defaultgroup' => 'com_kunena'];
-                $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
-                $cache->setLifeTime(180);
-
-                return $cache->get(['Kunena\Forum\Libraries\Html\KunenaParser', 'parseBBCode'], [$body]);
-            };
+            $this->body = $cache->get(['Kunena\Forum\Libraries\Html\KunenaParser', 'parseBBCode'], [$body]);
         }
     }
 }

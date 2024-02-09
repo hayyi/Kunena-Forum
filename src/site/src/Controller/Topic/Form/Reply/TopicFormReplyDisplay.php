@@ -6,7 +6,7 @@
  * @package         Kunena.Site
  * @subpackage      Controller.Topic
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -180,7 +180,13 @@ class TopicFormReplyDisplay extends KunenaControllerDisplay
         $this->allowedExtensions = KunenaAttachmentHelper::getExtensions($this->category);
 
         $this->postAnonymous        = $saved ? $saved['anonymous'] : !empty($this->category->postAnonymous);
-        $this->subscriptionsChecked = $saved ? $saved['subscribe'] : $this->config->subscriptionsChecked == 1;
+
+        if ($this->me->canSubscribe == -1) {
+            $this->subscriptionsChecked = $saved ? $saved['subscribe'] : $this->config->subscriptionsChecked == 1;
+        } else {
+            $this->subscriptionsChecked = $this->me->canSubscribe;
+        }
+
         $this->app->setUserState('com_kunena.postfields', null);
 
         $this->canSubscribe = $this->canSubscribe();

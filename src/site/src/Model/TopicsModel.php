@@ -6,7 +6,7 @@
  * @package         Kunena.Site
  * @subpackage      Models
  *
- * @copyright       Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright       Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license         https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link            https://www.kunena.org
  **/
@@ -615,20 +615,35 @@ class TopicsModel extends KunenaModel
                 $latestCategory   = $params->get('topics_categories', []);
                 $latestCategoryIn = $params->get('topics_catselection', '');
 
+                if (is_array($klatestCategory)) {
+                    if (count($klatestCategory) == 1) {
+                        if ($klatestCategory[0] == '-1') {
+                            $klatestCategory = [];
+                        }
+                    }
+                } else {
+                    $klatestCategory = [];
+                }
+/*
                 /*
                  * Check if topics_catselection is set on "Use Global"=empty, "Show Categories"=1 or "Hide Categories"=0 then if selected "Show Categories" or "Hide Categories",
                  * get the list of categories from the menu item with topics_categories.
                  * From Kunena 6.1 in Kunena menus the default value of topics_catselection for option "Use Global" should be set to 2 instead of empty
                  */
-                if ((empty($latestCategoryIn) || $latestCategoryIn==2) && count($klatestCategory) == 0) {
-                    if($this->config->latestCategory==0) {
+                if (empty($latestCategoryIn) && count($klatestCategory) == 0) {
+                    if($this->config->latestCategory == 0) {
                         $latestCategory = false;
                     }
                     else {
                         $latestCategory = explode(',', $this->config->latestCategory);
                     }
 
-                    $latestCategoryIn = $this->config->latestCategoryIn;
+                    $latestCategoryIn = $this->config->latestCategoryIn; 
+                } elseif ($latestCategoryIn > 0 && count($klatestCategory) == 0) {
+                    // When "Hide Categories" setting is selected under "Recent Topics" menu item
+                    if ($latestCategoryIn==2) {
+                        $latestCategoryIn = false;
+                    }
                 } elseif (count($klatestCategory) > 0) {
                     $latestCategory = $klatestCategory;
                 } else {

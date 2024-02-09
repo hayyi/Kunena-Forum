@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `#__kunena_categories`
 
 CREATE TABLE IF NOT EXISTS `#__kunena_karma`
 (
-    `id`     int(11) NOT NULL default '0',
+    `id`     int(11) NOT NULL AUTO_INCREMENT,
     `userid` int(11) NOT NULL,
     `target_userid` int(11) NOT NULL,
     `time` int(11) NOT NULL,
@@ -444,7 +444,6 @@ CREATE TABLE IF NOT EXISTS `#__kunena_users`
     `avatar`           varchar(191) NULL,
     `timestamp`        int(11)      NULL     default '0',
     `karma`            int(11)      NULL     default '0',
-    `karma_time`       int(11)      NULL     default '0',
     `group_id`         int(4)       NULL     default '1',
     `uhits`            int(11)      NULL     default '0',
     `personalText`     tinytext     NULL,

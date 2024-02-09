@@ -6,7 +6,7 @@
  * @package       Kunena.Framework
  * @subpackage    User
  *
- * @copyright     Copyright (C) 2008 - 2023 Kunena Team. All rights reserved.
+ * @copyright     Copyright (C) 2008 - 2024 Kunena Team. All rights reserved.
  * @license       https://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link          https://www.kunena.org
  **/
@@ -647,7 +647,10 @@ class KunenaBan extends parentAlias
         $this->setExpiration($expiration);
         $this->reason_private = (string) $reason_private;
         $this->reason_public  = (string) $reason_public;
-        $this->addComment($comment);
+
+        if (!empty($comment)) {
+            $this->addComment($comment);
+        }
     }
 
     /**
@@ -677,7 +680,9 @@ class KunenaBan extends parentAlias
             $this->modified_by   = self::$_my->id;
         }
 
-        $this->addComment($comment);
+        if (!empty($comment)) {
+           $this->addComment($comment);
+        }
     }
 
     /**
@@ -715,7 +720,10 @@ class KunenaBan extends parentAlias
         $this->expiration    = self::$_now->toSql();
         $this->modified_time = self::$_now->toSql();
         $this->modified_by   = self::$_my->id;
-        $this->addComment($comment);
+
+        if (!empty($comment)) {
+            $this->addComment($comment);
+        }
     }
 
     /**
