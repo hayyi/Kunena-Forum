@@ -21,7 +21,11 @@ jQuery(function ($) {
 
     // Insert bbcode in message
     function insertInMessage(attachid, filename, button) {
-        CKEDITOR.instances.message.insertText(' [attachment=' + attachid + ']' + filename + '[/attachment]');
+        if (Joomla.getOptions('com_kunena.ckeditor_config') !== undefined) {
+            CKEDITOR.instances.message.insertText(' [attachment=' + attachid + ']' + filename + '[/attachment]');
+        } else {
+            sceditor.instance(document.getElementById('message')).insert(' [attachment=' + attachid + ']' + filename + '[/attachment]');
+        }
 
         if (button !== undefined) {
             button.removeClass('btn-primary');
@@ -194,11 +198,15 @@ jQuery(function ($) {
             });
         }
 
-		// Prevent the press on enter key to press the button enter all when previously clicked
-		if ($('#message').length > 0)
-		{
-			CKEDITOR.instances.message.insertText(content_to_inject);
-		}
+        // Prevent the press on enter key to press the button enter all when previously clicked
+        if ($('#message').length > 0)
+        {
+            if (Joomla.getOptions('com_kunena.ckeditor_config') !== undefined) {
+                CKEDITOR.instances.message.insertText(content_to_inject);
+            } else {
+                sceditor.instance(document.getElementById('message')).insert(content_to_inject);
+            }
+        }
 
         $('#files .btn.btn-primary').each(function () {
             $('#files .btn.btn-primary').addClass('btn-success');

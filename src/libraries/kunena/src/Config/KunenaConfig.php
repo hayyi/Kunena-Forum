@@ -1723,14 +1723,6 @@ class KunenaConfig extends CMSObject
         $plugins = [];
         Factory::getApplication()->triggerEvent('onKunenaGetConfiguration', ['kunena.configuration', &$plugins]);
         $this->plugins = [];
-
-        foreach ($plugins as $name => $registry) {
-            if ($name == '38432UR24T5bBO6') {
-                $this->bind($registry->toArray());
-            } elseif ($name && $registry instanceof Registry) {
-                $this->plugins[$name] = $registry;
-            }
-        }
     }
 
     /**
